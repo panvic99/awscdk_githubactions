@@ -64,12 +64,12 @@ def handler(event, context):
                 try:
                     response = requests.get(
                         dest_lambda_url,
-                        params={
-                            'name': name,
-                            'age': age,
-                            'source': 'lambda1'
-                        },
-                        timeout=30
+                        # params={
+                        #     'name': name,
+                        #     'age': age,
+                        #     'source': 'lambda1'
+                        # },
+                        # timeout=30
                     )
                     
                     return {
