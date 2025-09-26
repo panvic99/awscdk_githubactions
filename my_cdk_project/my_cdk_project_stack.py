@@ -3,12 +3,23 @@ from aws_cdk import (
    aws_s3 as s3,RemovalPolicy, aws_dynamodb, aws_lambda, aws_s3_notifications
 )
 from constructs import Construct
+import json
+
 class MyCdkAppStack(Stack):
-    def __init__(self, scope: Construct, id: str, **kwargs):
+    def __init__(self, scope: Construct, id: str,config: dict, **kwargs):
         super().__init__(scope, id, **kwargs)
+
+        env_name = config["environment"]
+
+        
+        with open(f"config/general.json") as f:
+            config = json.load(f)
+
+
         # Create S3 bucket
         bucket = s3.Bucket(
             self, "MyBucket",
+            bucket_name=config["bucket1"]+env_name,
             versioned=True,
             removal_policy=RemovalPolicy.DESTROY,  # change to DESTROY for auto-cleanup
             auto_delete_objects=True
@@ -16,6 +27,7 @@ class MyCdkAppStack(Stack):
 
         dest_bucket = s3.Bucket(
             self, "destBucket",
+            bucket_name=config["bucket2"]+env_name,
             versioned=True,
             removal_policy=RemovalPolicy.DESTROY,  # change to DESTROY for auto-cleanup
             auto_delete_objects=True
@@ -25,6 +37,7 @@ class MyCdkAppStack(Stack):
        # DynamoDB Table
         table = aws_dynamodb.Table(
             self, "MyTable",
+            table_name=config["DynamoTable"]+env_name,
             partition_key=aws_dynamodb.Attribute(name="id", type=aws_dynamodb.AttributeType.STRING),
             removal_policy=RemovalPolicy.DESTROY
         )
@@ -68,10 +81,6 @@ class MyCdkAppStack(Stack):
                 "DEST_LAMBDA": dest_func_url.url
             }
         )
-
-        
-
-        
 
         # Add S3 trigger
         bucket.add_event_notification(

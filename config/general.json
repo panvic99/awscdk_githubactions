@@ -1,0 +1,6 @@
+{
+    "bucket1": "Testings3BucketTesting1",
+    "bucket2": "Testings3BucketTesting2",
+    "DynamoTable": "DynamoDBTable"
+
+}
