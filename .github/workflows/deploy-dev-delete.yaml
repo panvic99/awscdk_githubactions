@@ -1,8 +1,8 @@
-name: Deploy to Dev
+name: Delete Dev
 
 on:
-  push:
-    branches: []
+  # push:
+  #   branches: []
   workflow_dispatch:
 
 permissions:
