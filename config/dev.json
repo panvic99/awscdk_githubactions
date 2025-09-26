@@ -1,4 +1,5 @@
 {
     "env": "dev",
-    "account": 529166310744
+    "account": 529166310744,
+    "region":"ap-south-1"
 }
