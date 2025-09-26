@@ -1,0 +1,42 @@
+name: Deploy to Dev
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy-dev:
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::529166310744:role/awscdk_githubaction
+          role-session-name: GitHubActions-Dev
+          aws-region: ap-south-1
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+          
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          
+      - name: Install CDK
+        run: npm install -g aws-cdk
+        
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+        
+      - name: CDK Bootstrap
+        run: cdk bootstrap 
+          
+      - name: CDK Deploy
+        run: cdk deploy --require-approval never
