@@ -39,8 +39,6 @@ jobs:
       - name: Install Python dependencies
         run: pip install -r requirements.txt
         
-      - name: CDK Bootstrap
-        run: cdk bootstrap --context environment=dev
           
       - name: CDK Deploy
         run: cdk deploy --context environment=dev --require-approval never
