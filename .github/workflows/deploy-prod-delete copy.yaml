@@ -1,8 +1,8 @@
-name: Deploy to Dev
+name: Delete PRDO
 
 on:
-  push:
-    branches: [dev]
+  # push:
+  #   branches: []
   workflow_dispatch:
 
 permissions:
@@ -40,4 +40,4 @@ jobs:
         run: pip install -r requirements.txt
         
       - name: CDK Deploy
-        run: cdk deploy --context environment=dev --require-approval never
+        run: cdk destroy --context environment=prod --require-approval never
