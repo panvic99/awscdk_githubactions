@@ -12,7 +12,7 @@ with open(f"config/{env_name}.json") as f:
     config = json.load(f)
 
 
-MyCdkAppStack(app, "MyCdkAppStack",
+MyCdkAppStack(app, "MyCdkAppStack",config=config, 
     env=cdk.Environment(account=config["account"], region=config["region"]),
 )
 
